@@ -24,6 +24,7 @@ import com.storyfortomorrow.core.module.ModuleCore;
 import com.storyfortomorrow.core.module.ModuleException;
 import com.storyfortomorrow.core.module.Registry;
 import com.storyfortomorrow.core.util.JsonCache;
+import com.storyfortomorrow.core.util.M;
 
 /**
  * @author 598Johnn897
@@ -42,10 +43,8 @@ public class Main extends JavaPlugin
 	public final SFTLog		sftlogger	= new SFTLog(this);
 	@Getter
 	public CommandFramework	cmdFramework;
-							
 	@Getter
 	public ModuleCore		moduleCore;
-							
 	private int				start, end;
 							
 	@Override
@@ -62,8 +61,7 @@ public class Main extends JavaPlugin
 		
 		try
 		{
-			JSON = new JsonCache(
-					new File(Main.get().getDataFolder().getAbsolutePath() + References.JSON_FILE),
+			JSON = new JsonCache(new File(Main.get().getDataFolder().getAbsolutePath() + References.JSON_FILE),
 					new URL(References.JSON_URL), 15).getJson();
 		}
 		catch (IOException | JSONException e)
@@ -83,7 +81,7 @@ public class Main extends JavaPlugin
 		{
 			References.MODULE_DIRECTORY = References.WORKING_DIRECTORY + JSON.getString("module_directory");
 			
-			sftlogger.log(Level.INFO, JSON.getJSONObject("messages").getString("loading"), new Object[]
+			sftlogger.log(Level.INFO, M.m("loading"), new Object[]
 			{ this.getDescription().getName(), this.getDescription().getVersion()
 			});
 		}
@@ -114,17 +112,9 @@ public class Main extends JavaPlugin
 		finally
 		{
 			end = (int) (System.currentTimeMillis() - start);
-			try
-			{
-				sftlogger.log(Level.INFO, JSON.getJSONObject("messages").getString("enabled"), new Object[]
-				{ this.getDescription().getName(), this.getDescription().getVersion(), end
-				});
-			}
-			catch (JSONException e)
-			{
-				e.printStackTrace();
-			}
-			
+			sftlogger.log(Level.INFO, M.m("enabled"), new Object[]
+			{ this.getDescription().getName(), this.getDescription().getVersion(), end
+			});
 		}
 	}
 	
@@ -135,12 +125,12 @@ public class Main extends JavaPlugin
 		{
 			moduleCore.disable();
 			
-			sftlogger.log(Level.INFO, JSON.getJSONObject("messages").getString("disabled"), new Object[]
+			sftlogger.log(Level.INFO, M.m("disabled"), new Object[]
 			{ this.getDescription().getName(), this.getDescription().getVersion(),
 					TimeUnit.MILLISECONDS.toMinutes(System.currentTimeMillis() - start)
 			});
 		}
-		catch (JSONException | ModuleException e)
+		catch (ModuleException e)
 		{
 			e.printStackTrace();
 		}

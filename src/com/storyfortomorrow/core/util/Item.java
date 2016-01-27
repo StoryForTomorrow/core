@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -17,11 +16,6 @@ import org.bukkit.inventory.meta.ItemMeta;
  */
 public class Item
 {
-	public static void test(Player p)
-	{
-	
-	}
-	
 	/**
 	 * Item; Amount; Durability; Name; Lore1~Lore2~Etc.;
 	 * Enchantment,Level~Enchantment2,Level2~Etc.;
@@ -59,17 +53,13 @@ public class Item
 		item_object.setAmount(amount);
 		item_object.setDurability(durability.shortValue());
 		for (String e : levels.keySet())
-		{
 			item_object.addUnsafeEnchantment(Enchantment.getByName(e), levels.get(e));
-		}
-		
+			
 		ItemMeta meta = item_object.getItemMeta();
 		meta.setDisplayName(C.f(name));
 		ArrayList<String> ll = new ArrayList<String>();
 		for (String l : lore)
-		{
 			ll.add(C.f(l));
-		}
 		meta.setLore(ll);
 		item_object.setItemMeta(meta);
 		
